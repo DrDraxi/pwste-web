@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PowerWash Simulator Timelapse Exporter</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>PowerWash Simulator Timelapse Exporter</h1>
+      <p class="subtitle">Preview and export your timelapses as JPEG, GIF, or MP4</p>
+    </header>
+
+    <!-- Scan Section -->
+    <div id="scan-section" class="scan-section">
+      <div class="scan-card">
+        <button id="btn-scan" class="btn btn-primary btn-large">Open Save Folder</button>
+        <div class="path-hint">
+          <p class="path-hint-label">Paste this in the folder picker address bar:</p>
+          <div class="path-copy-row">
+            <code id="path-text" class="path-text">%appdata%\..\LocalLow\FuturLab</code>
+            <button id="btn-copy-path" class="btn btn-secondary btn-small">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timelapse Selector (shown after scan) -->
+    <div id="selector-section" class="selector-section hidden">
+      <div class="selector-card">
+        <label for="timelapse-select" class="selector-label">Available Timelapses</label>
+        <select id="timelapse-select" class="timelapse-select">
+          <option value="" disabled selected>Select a timelapse...</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Main Content (hidden until files loaded) -->
+    <div id="main-content" class="main-content hidden">
+      <!-- Preview -->
+      <div class="preview-section">
+        <div class="preview-header">
+          <h2 id="timelapse-name">Preview</h2>
+          <span id="frame-counter" class="frame-counter">0 / 0</span>
+        </div>
+        <div class="preview-container">
+          <img id="preview-image" alt="Timelapse preview" />
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls-section">
+        <div class="control-group">
+          <label for="frame-slider">Frames to export</label>
+          <div class="slider-row">
+            <input type="range" id="frame-slider" min="1" max="100" value="100" />
+            <span id="frame-slider-value" class="slider-value">100</span>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-group">
+            <label for="delay-input">Frame delay (ms)</label>
+            <input type="number" id="delay-input" min="10" max="9999" value="100" step="10" />
+          </div>
+          <div class="control-group">
+            <label for="end-pause-input">End pause (ms)</label>
+            <input type="number" id="end-pause-input" min="10" max="99999" value="1000" step="100" />
+          </div>
+        </div>
+
+        <!-- Export Buttons -->
+        <div class="export-buttons">
+          <button id="btn-export-jpeg" class="btn btn-primary">Export JPEGs (ZIP)</button>
+          <button id="btn-export-gif" class="btn btn-primary">Export GIF</button>
+          <button id="btn-export-mp4" class="btn btn-primary">Export MP4</button>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div id="progress-section" class="progress-section hidden">
+        <div class="progress-bar-container">
+          <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
+        </div>
+        <p id="progress-text" class="progress-text">Processing...</p>
+      </div>
+    </div>
+
+    <!-- Fallback: drag-and-drop (hidden behind toggle) -->
+    <div class="fallback-section">
+      <button id="btn-fallback-toggle" class="fallback-toggle">Doesn't work?</button>
+      <div id="fallback-content" class="fallback-content hidden">
+        <div id="drop-zone" class="drop-zone">
+          <div class="drop-zone-content">
+            <svg class="drop-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M24 32V12M16 20l8-8 8 8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 32v4a4 4 0 004 4h24a4 4 0 004-4v-4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <p class="drop-text">Drop a timelapse folder or .sav files here</p>
+            <p class="drop-hint">or use the buttons below</p>
+            <div class="file-buttons">
+              <label class="btn btn-secondary">
+                Select Folder
+                <input type="file" id="folder-input" webkitdirectory hidden />
+              </label>
+              <label class="btn btn-secondary">
+                Select Files
+                <input type="file" id="file-input" multiple accept=".sav" hidden />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error display -->
+    <div id="error-display" class="error-display hidden"></div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
