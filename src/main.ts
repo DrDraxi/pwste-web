@@ -11,7 +11,6 @@ import { $, $input, $img, show, hide } from './ui/dom';
 import { loadTimelapse, type TimeLapse } from './parse/timelapse';
 import { exportJpegsAsZip } from './export/jpeg-export';
 import { exportGif } from './export/gif-export';
-import { exportMp4 } from './export/mp4-export';
 
 // State
 let currentTimelapse: TimeLapse | null = null;
@@ -31,7 +30,6 @@ const delayInput = $input('delay-input');
 const endPauseInput = $input('end-pause-input');
 const btnExportJpeg = $('btn-export-jpeg');
 const btnExportGif = $('btn-export-gif');
-const btnExportMp4 = $('btn-export-mp4');
 const errorDisplay = $('error-display');
 const selectorSection = $('selector-section');
 const timelapseSelect = $('timelapse-select') as HTMLSelectElement;
@@ -104,7 +102,6 @@ function setExporting(state: boolean): void {
   exporting = state;
   (btnExportJpeg as HTMLButtonElement).disabled = state;
   (btnExportGif as HTMLButtonElement).disabled = state;
-  (btnExportMp4 as HTMLButtonElement).disabled = state;
 }
 
 function getExportName(): string {
@@ -293,14 +290,3 @@ btnExportGif.addEventListener('click', async () => {
   setExporting(false);
 });
 
-btnExportMp4.addEventListener('click', async () => {
-  if (exporting || currentSubset.length === 0) return;
-  setExporting(true);
-  try {
-    await exportMp4(currentSubset, getExportName(), getDelay(), getEndPause());
-  } catch (err) {
-    hideProgress();
-    showError(`MP4 export failed: ${err instanceof Error ? err.message : err}`);
-  }
-  setExporting(false);
-});

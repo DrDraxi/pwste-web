@@ -14,8 +14,6 @@
     "vite": "^5.4.0"
   },
   "dependencies": {
-    "@ffmpeg/ffmpeg": "^0.12.10",
-    "@ffmpeg/util": "^0.12.1",
     "file-saver": "^2.0.5",
     "fzstd": "^0.1.1",
     "gifenc": "^1.0.3",
